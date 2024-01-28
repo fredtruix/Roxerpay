@@ -5,6 +5,7 @@
   import UserStore from "../../../stores/user";
   import AuthStore from "../../../stores/auth";
   import toast from "svelte-french-toast";
+  import { redirect } from '@sveltejs/kit';
 
   let first_name = "",
     last_name = "",
@@ -14,6 +15,7 @@
     user_id = "",
     access_token = "",
     username = "",
+    avatar = "",
     email = "";
 
   AuthStore.subscribe((data) => {
@@ -30,7 +32,56 @@
     address = data?.address;
     user_id = data?.id;
     email = data?.email;
+    avatar = data?.profile_image
   });
+
+
+  let formData = new FormData()
+
+
+
+  const displaySelectedImage = async (e) => {
+   const fileInput = e.target
+   
+ 
+
+   if (fileInput.files && fileInput.files[0]) {
+        const reader = new FileReader();
+        formData.append("profile_image", fileInput.files[0])
+        formData.append("id",user_id)
+        formData.append("email",email)
+        formData.append("username",username)
+        
+
+        reader.onload = function(e) {
+         let selectedImage = document.getElementById(image);
+         selectedImage = e.target.result
+        };
+      
+
+        reader.readAsDataURL(fileInput.files[0]);
+    }
+
+    let response = await fetch(`http://127.0.0.1:8000/user/${user_id}/`, {
+      method: "PATCH",
+      Authorization: `Bearer ${access_token}`,
+      body: formData
+    });
+
+    let data = await response.json()
+    if(data.success == false){
+      toast.error("Profile image not uploaded successfully")
+    }
+    else{
+      toast.success("Profile image uploaded successfully")
+    }
+
+
+   
+
+
+
+  }
 
   const submit = async () => {
     let response = await fetch(`http://127.0.0.1:8000/user/${user_id}/`, {
@@ -43,20 +94,18 @@
         email,
         first_name,
         last_name,
-        phone_number:phone,
-        address
+        phone_number: phone,
+        address,
       }),
     });
 
-    let data = await response.json()
-    if(data.success == false ){
-      toast.error("Profile was not update successfully something went wrong")
-      
-    }
-    else{
-      setInterval(toast.success(data.message), 2000)
-      
-      console.log("happy")
+    let data = await response.json();
+    if (data.success == false) {
+      toast.error("Profile was not update successfully something went wrong");
+    } else {
+      setInterval(toast.success(data.message), 2000);
+
+      console.log("happy");
     }
   };
 </script>
@@ -69,7 +118,7 @@
         <SideBar />
         <div class="col-lg-9 col-md-8">
           <div class="mb-4">
-            <h1 class="mb-0 h3">{$UserStore?.username } Profile</h1>
+            <h1 class="mb-0 h3">{$UserStore?.username} Profile</h1>
           </div>
           <div class="card border-0 shadow-sm mb-4">
             <div class="card-body p-lg-5">
@@ -80,9 +129,14 @@
                   recognize your comments and contributions easily!
                 </p>
               </div>
+              {#key avatar}
               <div class="d-flex align-items-center">
                 <img
-                  src="assets/images/avatar/avatar-1.jpg"
+                  id = "image"
+                
+                  src="http://127.0.0.1:8000{avatar}"
+                
+               
                   alt="avatar"
                   class="avatar avatar-lg rounded-circle"
                 />
@@ -91,8 +145,13 @@
                   <small
                     >Allowed *.jpeg, *.jpg, *.png, *.gif max size of 4 MB</small
                   >
+                  <div class="badge rounded-pill bg-primary-subtle text-primary-emphasis">
+                     <label class="form-label text-white m-1" for="customFile2">Choose file</label>
+                     <input bind:value={avatar} type="file" class="form-control d-none" id="customFile2" on:change={displaySelectedImage} />
+                  </div>
                 </div>
               </div>
+              {/key}
             </div>
           </div>
           <div class="card border-0 shadow-sm mb-4">
@@ -144,7 +203,6 @@
                     bind:value={phone}
                     required
                   />
-                 
                 </div>
                 <div class="col-lg-6">
                   <label for="profileBirthdayInput" class="form-label"
@@ -157,7 +215,6 @@
                     id="profileBirthdayInput"
                     required
                   />
-                 
                 </div>
                 <div class="col-lg-12">
                   <label for="profileAddressInput" class="form-label"
@@ -170,7 +227,6 @@
                     bind:value={address}
                     required
                   />
-                
                 </div>
 
                 <div class="col-12 mt-4">
