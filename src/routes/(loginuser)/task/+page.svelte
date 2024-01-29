@@ -67,12 +67,8 @@
                   </div>
                </div>
                <div class="row gy-lg-7 gy-5">
-                  <article class="col-lg-3 col-md-6 col-6">
-                     <figure class="mb-1 zoom-img">
-                        <a href="blog-single.html">
-                           <img src="assets/images/blog/blog-img-9.jpg" alt="blog" class="img-fluid rounded-3" />
-                        </a>
-                     </figure>
+                  <article class="col-lg-3 col-md-6 ml-1 col-6 ">
+                
      
                      <a href="#!" class="badge  bg-primary-subtle text-primary-emphasis rounded-pill text-uppercase">Digital</a>
                      <h3 class=" fs-10 h4">
@@ -88,12 +84,8 @@
                         <div class="ms-3"><span class="fs-10">Dec 21, 2023</span></div>
                      </div>
                   </article>
-                  <article class="col-lg-3 col-md-6 col-6">
-                     <figure class="mb-1 zoom-img">
-                        <a href="blog-single.html">
-                           <img src="assets/images/blog/blog-img-1.jpg" alt="blog" class="img-fluid rounded-3" />
-                        </a>
-                     </figure>
+                  <article class="col-lg-3 col-md-6 ml-1 col-6 ">
+                   
      
                      <a href="#!" class="badge bg-success-subtle text-success-emphasis rounded-pill text-uppercase">design</a>
                      <h3 class="mb-1 fs-10 h4">

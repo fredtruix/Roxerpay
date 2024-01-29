@@ -3,10 +3,9 @@
   import { goto } from "$app/navigation";
   import { onMount } from "svelte";
   import AuthStore from "../stores/auth";
+  import UserStore from "../stores/user";
 
 
-
-   import UserStore from "../stores/user";
   onMount(()=>{
    AuthStore.subscribe(data =>{
     if(data === null){
@@ -20,7 +19,7 @@
 
 <div class="col-lg-3 col-md-4">
     <div class="d-flex align-items-center mb-4 justify-content-center justify-content-md-start">
-       <img src="assets/images/avatar/avatar-1.jpg" alt="avatar" class="avatar avatar-lg rounded-circle" />
+       <img src="http://127.0.0.1:8000{$UserStore?.profile_image}" alt="avatar" class="avatar avatar-lg rounded-circle" />
        <div class="ms-3">
           <h5 class="mb-0">{$UserStore?.username} 
             {#if $UserStore?.verified === false}

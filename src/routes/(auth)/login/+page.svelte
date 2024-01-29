@@ -28,7 +28,7 @@
 
       toast.success("Login successful");
 
-      goto("/account");
+      goto("/task");
     } else {
       toast.error(data.detail);
     }

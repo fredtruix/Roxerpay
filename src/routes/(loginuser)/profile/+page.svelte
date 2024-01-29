@@ -5,7 +5,7 @@
   import UserStore from "../../../stores/user";
   import AuthStore from "../../../stores/auth";
   import toast from "svelte-french-toast";
-  import { redirect } from '@sveltejs/kit';
+  import { goto } from '$app/navigation';
 
   let first_name = "",
     last_name = "",
@@ -46,20 +46,22 @@
  
 
    if (fileInput.files && fileInput.files[0]) {
-        const reader = new FileReader();
+        // const reader = new FileReader();
         formData.append("profile_image", fileInput.files[0])
         formData.append("id",user_id)
         formData.append("email",email)
         formData.append("username",username)
         
 
-        reader.onload = function(e) {
-         let selectedImage = document.getElementById(image);
-         selectedImage = e.target.result
-        };
+        // reader.onload = function(e) {
+        //  let selectedImage = document.getElementById(image);
+        //  selectedImage = e.target.result
+        // };
+
+        
       
 
-        reader.readAsDataURL(fileInput.files[0]);
+        // reader.readAsDataURL(fileInput.files[0]);
     }
 
     let response = await fetch(`http://127.0.0.1:8000/user/${user_id}/`, {
@@ -74,6 +76,10 @@
     }
     else{
       toast.success("Profile image uploaded successfully")
+      
+      goto('/').then(
+            () => goto("profile")
+        );
     }
 
 
@@ -129,8 +135,9 @@
                   recognize your comments and contributions easily!
                 </p>
               </div>
-              {#key avatar}
+              
               <div class="d-flex align-items-center">
+                {#key avatar}
                 <img
                   id = "image"
                 
@@ -140,18 +147,19 @@
                   alt="avatar"
                   class="avatar avatar-lg rounded-circle"
                 />
+                {/key}
                 <div class="ms-4">
                   <h5 class="mb-0">Your photo</h5>
                   <small
                     >Allowed *.jpeg, *.jpg, *.png, *.gif max size of 4 MB</small
                   >
-                  <div class="badge rounded-pill bg-primary-subtle text-primary-emphasis">
-                     <label class="form-label text-white m-1" for="customFile2">Choose file</label>
+                  <div class="badge rounded-pill hover bg-light-subtle text-white">
+                     <label class="form-label hover  m-1" for="customFile2" ><a >Choose file</a></label>
                      <input bind:value={avatar} type="file" class="form-control d-none" id="customFile2" on:change={displaySelectedImage} />
                   </div>
                 </div>
               </div>
-              {/key}
+           
             </div>
           </div>
           <div class="card border-0 shadow-sm mb-4">
@@ -243,3 +251,16 @@
   </section>
   <!--Account profile end-->
 </main>
+
+
+
+<style>
+  .hover{
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  /* .hover:hover{
+    text-decoration: underline;
+  } */
+</style>
