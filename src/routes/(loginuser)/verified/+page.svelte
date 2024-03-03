@@ -1,11 +1,11 @@
 <script>
-     import SideBar from "../../../components/SideBar.svelte";
-     import TaskOption from "../../../components/TaskOption.svelte"
-   //   import 
+   import SideBar from "../../../components/SideBar.svelte";
+   import TaskOption from "../../../components/TaskOption.svelte"
+ //   import 
 
-      export let data;
-      const tasks = data.task;
-      
+    export let data;
+    const tasks = data.task;
+    
 
 </script>
 
@@ -72,9 +72,9 @@
 
 
 
- <style>
-   .fs-10{
-      font-size: 12px;
-      line-height: 18px;
-   }
- </style>
+<style>
+ .fs-10{
+    font-size: 12px;
+    line-height: 18px;
+ }
+</style>

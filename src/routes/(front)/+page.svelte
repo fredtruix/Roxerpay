@@ -6,7 +6,7 @@
 </script>
 
 
-<main>
+<main class="mt-5">
 
     <Hero/>
     <Features />

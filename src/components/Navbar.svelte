@@ -23,7 +23,7 @@
 
       AuthStore.subscribe(data => {
         let  userData = jwtDecode(JSON.stringify(data.access))
-        console.log(userData)
+        
         let response =  fetch(`http://127.0.0.1:8000/user/${userData.user_id}`, {
             method : "GET",
             headers: { "Content-Type": "application/json" },
@@ -55,9 +55,9 @@
          // UserStore.update((data) => (data = userData) )
       })
 
-      UserStore.subscribe(data =>{
-         console.log(data)
-      })
+      // UserStore.subscribe(data =>{
+      //    console.log(data)
+      // })
       
      
     }
@@ -69,13 +69,21 @@
 </script>
 
 <!-- Navbar -->
-<header>
-  <nav class="navbar navbar-expand-lg navbar-light w-100">
+<header class="">
+  <nav class="navbar navbar-expand-lg navbar-light w-100 fixed-top">
     <div class="container px-3">
-      <a class="navbar-brand font-weight-bold" href="/">Roxerpay</a>
-      <button class="navbar-toggler offcanvas-nav-btn" type="button">
-        <i class="bi bi-list"></i>
-      </button>
+      <a class="navbar-brand font-weight-bold d-none d-md-block" href="/">Roxapay</a>
+     
+      <div class="d-flex d-md-none justify-content-center w-100">
+        <!--Checkbox and radio-->
+        <div class="btn-group btn-group-lg" role="group" aria-label="large  toggle button group">
+           <a href="/task" class="btn btn-primary " aria-current="page"><i class='bx bx-task '></i></a>
+           <a href="/profile" class="btn btn-primary"><i class='bx bx-user'></i></a>
+           <a href="/account" class="btn btn-primary  px-5"><i class='bx bx-home'></i></a>
+           <a href="#" class="btn btn-primary"><i class='bx bxs-circle-three-quarter'></i></a>
+           <a href="#" class="btn btn-primary"><i class='bx bxs-credit-card-front'></i></a>
+         </div>
+     </div >
       <div class="offcanvas offcanvas-start offcanvas-nav" style="width: 20rem">
         <div class="offcanvas-header">
           <a href="index.html" class="text-inverse"
@@ -748,7 +756,7 @@
               <a href="/login" class="btn btn-light mx-2">Login</a>
               <a href="/register" class="btn btn-primary">Create account</a>
             {:else}
-              <a href="/logout" class="btn btn-light mx-2">logout</a>
+              <a href="/logout" class="btn btn-light mx-2">Logout</a>
             {/if}
           </div>
         </div>

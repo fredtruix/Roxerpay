@@ -5,7 +5,7 @@
   import UserStore from "../../../stores/user";
   import AuthStore from "../../../stores/auth";
   import toast from "svelte-french-toast";
-  import { goto } from '$app/navigation';
+  import { goto } from "$app/navigation";
 
   let first_name = "",
     last_name = "",
@@ -32,62 +32,56 @@
     address = data?.address;
     user_id = data?.id;
     email = data?.email;
-    avatar = data?.profile_image
+    avatar = `http://127.0.0.1:8000${data?.profile_image}`;
   });
 
-
-  let formData = new FormData()
-
-
+  let formData = new FormData();
 
   const displaySelectedImage = async (e) => {
-   const fileInput = e.target
-   
+    let  image = e.target.files[0];
+
+  
+      formData.append("profile_image",image);
+      formData.append("id", user_id);
+      formData.append("email", email);
+      formData.append("username", username);
+      let reader = new FileReader();
+      reader.readAsDataURL(image);
+      reader.onload = (e) => {
+      // taskImage = image;
+      avatar = e.target.result;
+    };
+
+     
+    
+
+      // reader.onload = function(e) {
+      //  let selectedImage = document.getElementById(image);
+      //  selectedImage = e.target.result
+      // };
+
+      // reader.readAsDataURL(fileInput.files[0]);
  
-
-   if (fileInput.files && fileInput.files[0]) {
-        // const reader = new FileReader();
-        formData.append("profile_image", fileInput.files[0])
-        formData.append("id",user_id)
-        formData.append("email",email)
-        formData.append("username",username)
-        
-
-        // reader.onload = function(e) {
-        //  let selectedImage = document.getElementById(image);
-        //  selectedImage = e.target.result
-        // };
-
-        
-      
-
-        // reader.readAsDataURL(fileInput.files[0]);
-    }
 
     let response = await fetch(`http://127.0.0.1:8000/user/${user_id}/`, {
       method: "PATCH",
       Authorization: `Bearer ${access_token}`,
-      body: formData
+      body: formData,
     });
 
-    let data = await response.json()
-    if(data.success == false){
-      toast.error("Profile image not uploaded successfully")
-    }
-    else{
-      toast.success("Profile image uploaded successfully")
+    let data = await response.json();
+    if (data.success == false) {
+      toast.error("Profile image not uploaded successfully");
+    } else {
+      toast.success("Profile image uploaded successfully");
       
-      goto('/').then(
+        // avatar = e.target.result;
+        goto('/').then(
             () => goto("profile")
         );
+     
     }
-
-
-   
-
-
-
-  }
+  };
 
   const submit = async () => {
     let response = await fetch(`http://127.0.0.1:8000/user/${user_id}/`, {
@@ -116,7 +110,7 @@
   };
 </script>
 
-<main>
+<main class="mt-5">
   <!--Account profile Start-->
   <section class="py-lg-7 py-5 bg-light-subtle">
     <div class="container">
@@ -135,31 +129,37 @@
                   recognize your comments and contributions easily!
                 </p>
               </div>
-              
+
               <div class="d-flex align-items-center">
                 {#key avatar}
-                <img
-                  id = "image"
-                
-                  src="http://127.0.0.1:8000{avatar}"
-                
-               
-                  alt="avatar"
-                  class="avatar avatar-lg rounded-circle"
-                />
+                  <img
+                    id="image"
+                    src={avatar}
+                    alt="avatar"
+                    class="avatar avatar-lg rounded-circle"
+                  />
                 {/key}
                 <div class="ms-4">
                   <h5 class="mb-0">Your photo</h5>
                   <small
                     >Allowed *.jpeg, *.jpg, *.png, *.gif max size of 4 MB</small
                   >
-                  <div class="badge rounded-pill hover bg-light-subtle text-white">
-                     <label class="form-label hover  m-1" for="customFile2" ><a >Choose file</a></label>
-                     <input bind:value={avatar} type="file" class="form-control d-none" id="customFile2" on:change={displaySelectedImage} />
+                  <div
+                    class="badge rounded-pill hover bg-light-subtle text-white"
+                  >
+                    <label class="form-label hover m-1" for="customFile2"
+                      ><a>Choose file</a></label
+                    >
+                    <input
+                      bind:value={avatar}
+                      type="file"
+                      class="form-control d-none"
+                      id="customFile2"
+                      on:change={displaySelectedImage}
+                    />
                   </div>
                 </div>
               </div>
-           
             </div>
           </div>
           <div class="card border-0 shadow-sm mb-4">
@@ -252,10 +252,8 @@
   <!--Account profile end-->
 </main>
 
-
-
 <style>
-  .hover{
+  .hover {
     text-decoration: none;
     cursor: pointer;
   }
