@@ -85,6 +85,13 @@
                   <span class="ms-2">Profile</span>
                </a>
             </li>
+
+            <li class="nav-item">
+               <a class="nav-link" href="/transactions">
+                  <i class='bx bxs-circle-three-quarter'></i>
+                  <span class="ms-2">on-going Task</span>
+               </a>
+            </li>
             <li class="nav-item">
                <a class="nav-link" aria-current="page" href="account-security.html">
                   <i class="align-bottom bx bx-lock-alt"></i>

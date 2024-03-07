@@ -18,7 +18,9 @@
     automaticPay = false,
     display_image = "",
     verifiedUser = false,
-    partakers = "";
+    partakers = "",
+    period = "",
+    number = "";
 
   const onFileSelected = (e) => {
     let image = e.target.files[0];
@@ -26,7 +28,7 @@
     reader.readAsDataURL(image);
     reader.onload = (e) => {
       taskImage = image;
-      display_image= e.target.result
+      display_image = e.target.result;
     };
   };
 
@@ -44,16 +46,16 @@
 
   AuthStore.subscribe((data) => {
     data = data;
-    access_token = data?.access
+    access_token = data?.access;
   });
 
   UserStore.subscribe((user) => {
     user = user;
-    username = user?.username
-    user_id = user?.id
+    username = user?.username;
+    user_id = user?.id;
   });
-console.log(data)
-  let formData = new FormData()
+  console.log(data);
+  let formData = new FormData();
 
   const handleSubmit = async () => {
     if (verifiedUser === true) {
@@ -61,30 +63,28 @@ console.log(data)
     } else {
       verifiedUser = "both";
     }
-    formData.append("username", username)
-    formData.append("username_id", Number(user_id))
-    formData.append("title", title)
-    formData.append("description", description)
-    formData.append("verified_or_unverified", verifiedUser)
-    formData.append("pay", automaticPay)
-    formData.append("amount", Number(amount))
-    formData.append("task_image", taskImage)
-    formData.append("partakers", partakers)
+    formData.append("username", username);
+    formData.append("username_id", Number(user_id));
+    formData.append("title", title);
+    formData.append("description", description);
+    formData.append("verified_or_unverified", verifiedUser);
+    formData.append("pay", automaticPay);
+    formData.append("amount", Number(amount));
+    formData.append("task_image", taskImage);
+    formData.append("partakers", partakers);
+    formData.append("period", period);
+    formData.append("number", number);
     let taskResponse = await fetch("http://127.0.0.1:8000/task/create/", {
       method: "POST",
       Authorization: `Bearer ${access_token}`,
-      body: formData
+      body: formData,
     });
-    let res = await taskResponse.json()
-    if (res.success == true){
-      toast.success(res.message)
-      goto('/').then(
-            () => goto(`/task/${res.data.id}`)
-        );
-
-    }
-    else{
-      toast.error(res.message)
+    let res = await taskResponse.json();
+    if (res.success == true) {
+      toast.success(res.message);
+      goto("/").then(() => goto(`/task/${res.data.id}`));
+    } else {
+      toast.error(res.message);
     }
   };
 </script>
@@ -146,7 +146,7 @@ console.log(data)
                   />
                 </div>
 
-                <div class="col-lg-6 col-md-12">
+                <div class="col-6 col-lg-6 col-md-12">
                   <input
                     type="number"
                     class="form-control"
@@ -157,7 +157,7 @@ console.log(data)
                   />
                 </div>
 
-                <div class="col-lg-6 col-md-12">
+                <div class="col-6 col-lg-6 col-md-12">
                   <input
                     type="number"
                     class="form-control"
@@ -167,6 +167,80 @@ console.log(data)
                     bind:value={partakers}
                   />
                 </div>
+                <small>Time period</small>
+                <div class="col-6 col-lg-6 col-md-12">
+                  <select
+                    class="form-select"
+                    bind:value={period}
+                    required
+                    aria-label="Default select example"
+                  >
+                  <option value="">Period</option>
+                    <option value="Minute">Minute</option>
+                    <option value="Hour">Hour</option>
+                    <option value="Day">Day</option>
+                    <option value="Week">Week</option>
+                    <!-- <option value="Month">Month</option> -->
+                  </select>
+                </div>
+
+                <div class="col-6 col-lg-6 col-md-12">
+                  <select
+                    class="form-select"
+                    bind:value={number}
+                    required
+                    aria-label="Default select example"
+                  >
+                    {#if period === "Minute"}
+                      <option selected value="30">30 minute</option>
+                      <option value="30">40 minute</option>
+                      <option value="30">50 minute</option>
+                    {:else if period === "Hour"}
+                      <option selected value="1">1 hour</option>
+                      <option value="2">2 hours</option>
+                      <option value="3">3 hours</option>
+                      <option value="4">4 hours</option>
+                      <option value="5">5 hours</option>
+                      <option value="6">6 hours</option>
+                      <option value="7">7 hours</option>
+                      <option value="8">8 hours</option>
+                      <option value="9">9 hours</option>
+                      <option value="10">10 hours</option>
+                      <option value="11">11 hours</option>
+                      <option value="12">12 hours</option>
+                      <option value="13">13 hours</option>
+                      <option value="14">14 hours</option>
+                      <option value="15">15 hours</option>
+                      <option value="16">16 hours</option>
+                      <option value="17">17 hours</option>
+                      <option value="18">18 hours</option>
+                      <option value="19">19 hours</option>
+                      <option value="20">20 hours</option>
+                      <option value="21">21 hours</option>
+                      <option value="22">22 hours</option>
+                      <option value="23">23 hours</option>
+                    {:else if period === "Day"}
+                      <option selected value="1">Day 1</option>
+                      <option value="2">Day 2</option>
+                      <option value="3">Day 3</option>
+                      <option value="4">Day 4</option>
+                      <option value="5">Day 5</option>
+                      <option value="6">Day 6</option>
+                    {:else if period === "Week"}
+                      <option selected value="1">Week 1</option>
+                      <option value="2">Week 2</option>
+                      <option value="3">Week 3</option>
+                    {:else if period === "Month"}
+                      <option selected value="1">Month 1</option>
+                      <option value="2">Month 2</option>
+                      <option value="3">Month 3</option>
+                      <option value="4">Month 4</option>
+                      <option value="5">Month 5</option>
+                      <option value="6">Month 6</option>
+                    {/if}
+                  </select>
+                </div>
+
                 <div class="col-lg-3 mx-2 col form-check form-switch mt-4">
                   <label for="profilePhoneInput" class="form-label"
                     >Automatic pay</label
@@ -191,14 +265,14 @@ console.log(data)
                     on:input={handleveryfity}
                   />
                 </div>
-                {#if taskImage === "" || title === "" || description === "" || amount === "" || partakers == 0}
+                {#if taskImage === "" || title === "" || description === "" || amount === "" || partakers === 0 || period === ""}
                   <div class="col-12 mt-4 d-grid">
                     <button
                       class="btn btn-primary me-2"
                       on:click={() => {
                         toast.error("Please add all required fields");
                       }}
-                      type="button">Preview <i class='bx bx-show'></i></button
+                      type="button">Preview <i class="bx bx-show"></i></button
                     >
                   </div>
                 {:else}
@@ -207,7 +281,7 @@ console.log(data)
                       class="btn btn-primary me-2"
                       data-bs-toggle="modal"
                       data-bs-target="#exampleModalLong"
-                      type="submit">Preview <i class='bx bx-show'></i></button
+                      type="submit">Preview <i class="bx bx-show"></i></button
                     >
                   </div>
                 {/if}
@@ -269,24 +343,30 @@ console.log(data)
               {/if}
 
               {#if verifiedUser === false}
-              <h1> </h1>
+                <h1> </h1>
               {:else}
-              <span
-                class="badge bg-warning text-light rounded-pill text-uppercase m-1"
-                >verified account</span
-              >
+                <span
+                  class="badge bg-warning text-light rounded-pill text-uppercase m-1"
+                  >verified account</span
+                >
               {/if}
               <span
-              class="badge bg-warning text-light rounded-pill text-uppercase m-1"
-              >task engagers {partakers}</span
-            >
+                class="badge bg-warning text-light rounded-pill text-uppercase m-1"
+                >task engagers {partakers}</span
+              >
+
+              <span
+                class="badge bg-info text-light rounded-pill text-uppercase m-1"
+                >Period:  {number} {period}</span
+              >
             </h5>
           </li>
         </div>
         <div class="d-grid">
           <button
             type="button"
-            class="btn btn-primary mx-3 my-3" data-bs-dismiss="modal"
+            class="btn btn-primary mx-3 my-3"
+            data-bs-dismiss="modal"
             on:click={handleSubmit}>Submit</button
           >
         </div>

@@ -95,8 +95,8 @@
                             >Price NGN {task.amount.toFixed(2)}</span
                           >
                           <span
-                            class="badge bg-secondary text-danger rounded-pill text-uppercase m-1"
-                            >Payment{#if task.pay == true}
+                            class="badge bg-info text-light rounded-pill text-uppercase m-1"
+                            >Payment {#if task.pay == true}
                               automatic
                             {:else}
                               manual
@@ -110,6 +110,11 @@
                             class="badge bg-success text-light rounded-pill text-uppercase m-1"
                             >{task.partakers} engagers needed for task</span
                           >
+
+                          <span
+                          class="badge bg-danger text-light rounded-pill text-uppercase m-1"
+                          >Period:  {task.number} {task.period}s</span
+                        >
                         </h5>
                         <p class="mb-0">{task.description}</p>
                       </li>
@@ -125,11 +130,11 @@
                                 <a
                                   href="update/{task.id}"
                                   type="button"
-                                  class="btn btn-primary px-5 m-2 btn-sm">Update task <i class='bx bxs-add-to-queue'></i></a
+                                  class="btn btn-primary px-5 m-2">Update task <i class='bx bxs-add-to-queue'></i></a
                                 >
                                 <button
                                   type="button"
-                                  class="btn btn-danger px-5 m-2 btn-sm" data-bs-toggle="modal"
+                                  class="btn btn-danger px-5 m-2 " data-bs-toggle="modal"
                                   data-bs-target="#exampleModal"
                                 >Delete Task <i class='bx bxs-trash-alt'></i></button
                                 >
