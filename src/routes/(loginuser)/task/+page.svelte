@@ -26,7 +26,7 @@
                      <a href="/task/{task.id}">
                      <figure class="mb-1 zoom-img">
                         
-                           <img src="http://127.0.0.1:8000{task.task_image}" alt="blog" class="img-fluid rounded-3" width="100%" height="50" />
+                           <img src="http://127.0.0.1:8000{task.task_image}" alt="blog" class="img-fluid rounded-3" style="width: 100%; height:150px;" />
                  
                      </figure>
      
@@ -80,4 +80,6 @@
       font-size: 12px;
       line-height: 18px;
    }
+
+  
  </style>

@@ -80,7 +80,7 @@
            <a href="/task" class="btn btn-primary " aria-current="page"><i class='bx bx-task '></i></a>
            <a href="/profile" class="btn btn-primary"><i class='bx bx-user'></i></a>
            <a href="/account" class="btn btn-primary  px-5"><i class='bx bx-home'></i></a>
-           <a href="#" class="btn btn-primary"><i class='bx bxs-circle-three-quarter'></i></a>
+           <a href="/transactions" class="btn btn-primary"><i class='bx bxs-circle-three-quarter'></i></a>
            <a href="#" class="btn btn-primary"><i class='bx bxs-credit-card-front'></i></a>
          </div>
      </div >

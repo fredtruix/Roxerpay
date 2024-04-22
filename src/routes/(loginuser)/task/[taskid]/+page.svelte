@@ -8,11 +8,13 @@
 
   export let data;
   let task = data.data;
-  console.log(task);
+  let username = "";
+  // console.log(task);
 
   UserStore.subscribe((user) => {
     user = user;
-    console.log(user);
+    username = user.username
+    // console.log(user);
   });
 
   const handleDelete = async (task_id) => {
@@ -37,6 +39,31 @@
     }
    
   };
+
+
+  const accept = async () =>{
+    let acceptResponse = await fetch(
+      `http://127.0.0.1:8000/task/accept/`,
+      {
+        method : "POST",
+        headers: { "Content-Type": "application/json" },
+        body : JSON.stringify(
+          {
+            task_owner : task.id,
+            task_owner_name : task.username,
+            task_handler : username,
+            title : task.title,
+            description : task.description,
+            pay : task.pay,
+            amount : task.amount,
+            period : task.period,
+            number : task.number
+          }
+
+        )
+      }
+    )
+  }
 </script>
 
 <main class="mt-5">
@@ -156,7 +183,7 @@
                             </div>
 
                             <div class="d-grid">
-                              <button class="btn btn-primary" type="submit"
+                              <button on:click={accept} class="btn btn-primary" type="submit"
                                 >Accept task</button
                               >
                             </div>
